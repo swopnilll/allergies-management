@@ -6,6 +6,7 @@ import User from "../models/User";
 import { Success } from "../domain/Success";
 import { UserInterface, UserToInsert } from "../domain/UserInterface";
 import { Token } from "../domain/TokenInterface";
+import { RefreshToken } from "../models/RefreshToken";
 
 export const getAllUsers = async (): Promise<Success<UserInterface[]>> => {
   const users = await User.getAllUsers();
@@ -24,7 +25,7 @@ export const createUser = async (
 
   return {
     data: user,
-    message: "Users fetched successfully",
+    message: "Successfull signed new user",
   };
 };
 
@@ -48,10 +49,37 @@ export const login = async (
     };
   }
 
-  const accessToken = jwt.sign({email, password}, process.env.JWT_SECRET as string);
+  const accessToken = jwt.sign(
+    { userId: user.id },
+    process.env.JWT_SECRET as string,
+    {
+      expiresIn: "240s",
+    }
+  );
+
+  const refreshToken = jwt.sign(
+    { userId: user.id },
+    process.env.JWT_REFRESH_TOKEN_SECRET as string
+  );
+
+  console.log(refreshToken);
+
+  await RefreshToken.createReferenceToken({
+    token: refreshToken,
+    user_id: user.id,
+    expires_at: new Date(Date.now() + 900000),
+  });
 
   return {
-    data: { accessToken }, 
-    message: "User logged in successfully"
+    data: { accessToken, refreshToken },
+    message: "User logged in successfully",
+  };
+};
+
+export const logOut = async (userId: number): Promise<Success<any>> => {
+  await RefreshToken.deleteReferenceToken(userId);
+
+  return {
+    message: "Successfully logout",
   };
 };

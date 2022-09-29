@@ -12,9 +12,6 @@ export const authenticate = async (
   res: Response,
   next: NextFunction
 ) => {
-  console.log("authenticate");
-  console.log(req.headers);
-
   const accessToken = req.headers.authorization?.split(" ")[1];
   console.log(accessToken);
 
@@ -26,7 +23,7 @@ export const authenticate = async (
 
     console.log(result);
 
-    req.authUser = result.iat;
+    req.authUser = result.userId;
   } catch (err) {
     next(new CustomError(`Authentication failed`, HTTP_CODE.UNAUTHORIZED));
   }

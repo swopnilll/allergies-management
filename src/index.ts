@@ -1,11 +1,11 @@
-import cors from 'cors';
-import dotenv from 'dotenv';
-import express, { Application } from 'express';
+import cors from "cors";
+import dotenv from "dotenv";
+import express, { Application } from "express";
 
-import { router } from './routes/router';
+import { router } from "./routes/router";
 
-import { notFound } from './middlware/notFound';
-import { errorHandler } from './middlware/errorHandler';
+import { notFound } from "./middlware/notFound";
+import { errorHandler } from "./middlware/errorHandler";
 
 dotenv.config();
 
@@ -19,6 +19,6 @@ app.use(router);
 app.use(notFound);
 app.use(errorHandler);
 
-const PORT = process.env.PORT ||  3004;
+const PORT = process.env.PORT || 3006;
 
-app.listen(PORT, () => console.log("server is running on " +PORT));
+app.listen(PORT, () => console.log("server is running on " + PORT));

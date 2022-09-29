@@ -14,5 +14,5 @@ export interface AuthorizedRequest extends Request {
 }
 
 export interface TokenPayload {
-  iat: number;
+  userId: number;
 }

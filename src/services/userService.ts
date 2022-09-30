@@ -35,6 +35,8 @@ export const login = async (
 ): Promise<Success<Token>> => {
   const user = await User.getUserByEmail(email);
 
+  console.log("user", user);
+
   if (!user) {
     return {
       message: "Invalid email or password",
@@ -53,7 +55,7 @@ export const login = async (
     { userId: user.id },
     process.env.JWT_SECRET as string,
     {
-      expiresIn: "240s",
+      expiresIn: "60s",
     }
   );
 

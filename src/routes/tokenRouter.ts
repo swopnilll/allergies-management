@@ -5,5 +5,4 @@ const tokenRouter = Router();
 
 tokenRouter.post("/", loginController.getAccessToken);
 
-
 export default tokenRouter;

@@ -1,40 +1,52 @@
-import { AllergyInterface } from "../domain/AllergyInterface";
-
 import { Success } from "../domain/Success";
-import Allergy from "../models/Allergy";
-import UserAllergy from "../models/UserAllergy";
+import {
+  AllergyInterface,
+  AllergyPatchRequestInterface,
+} from "../domain/AllergyInterface";
 
-export const getAllergy = async (
+import Allergy from "../models/Allergy";
+
+export const getAllergiesByUserId = async (
   userId: number
-): Promise<Success<AllergyInterface[]>> => {
-  console.log("get allergy service");
-  const allergies = await UserAllergy.getAllergiesForUser(userId);
-  console.log("------------");
-  console.log(allergies);
+): Promise<Success<AllergyInterface>> => {
+  const allergies = await Allergy.getAllergiesByUserId(userId);
 
   return {
     data: allergies,
-    message: "Allergies fetched successfully",
+    message: "Succesfully retrieved allergies",
   };
 };
 
 export const createAllergy = async (
-  userId: number,
   payload: AllergyInterface
 ): Promise<Success<AllergyInterface>> => {
-  const allergie = await Allergy.createAllergy(payload);
-
-  const allergyId = allergie?.[0]?.id as number;
-
-  await UserAllergy.createUserAllergy({
-    userId,
-    allergyId,
-  });
-
-  console.log("allergie", allergie);
+  const newAllergy = await Allergy.createAllergy(payload);
 
   return {
-    data: allergie,
-    message: "Allergies fetched successfully",
+    data: newAllergy,
+    message: "Successfully created new allergy",
+  };
+};
+
+export const updateAllergy = async (
+  userId: number,
+  payload: AllergyPatchRequestInterface
+): Promise<Success<number>> => {
+  const newAllergy = await Allergy.updateAllergy(userId, payload);
+
+  return {
+    data: newAllergy,
+    message: "Successfully created new allergy",
+  };
+};
+
+export const deleteAllergy = async (
+  allergyId: number
+): Promise<Success<number>> => {
+  const deletedAllergy = await Allergy.deleteAllergy(allergyId);
+
+  return {
+    data: deletedAllergy,
+    message: "Successfully Deleted the allergy",
   };
 };

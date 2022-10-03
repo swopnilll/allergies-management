@@ -13,7 +13,6 @@ export const authenticate = async (
   next: NextFunction
 ) => {
   const accessToken = req.headers.authorization?.split(" ")[1];
-  console.log(accessToken);
 
   try {
     const result = (await jwt.verify(
@@ -21,10 +20,11 @@ export const authenticate = async (
       process.env.JWT_SECRET as string
     )) as TokenPayload;
 
-    console.log(result);
+    console.log("result", result);
 
     req.authUser = result.userId;
   } catch (err) {
+    console.log(err);
     next(new CustomError(`Authentication failed`, HTTP_CODE.UNAUTHORIZED));
   }
 

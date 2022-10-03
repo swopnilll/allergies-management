@@ -3,6 +3,8 @@ import * as allergyController from "../controller/allergyController";
 
 export const allergyRouter = Router();
 
-allergyRouter.get("/:id", allergyController.getAllergy);
+allergyRouter.post("/", allergyController.createAllergy);
 
-allergyRouter.post("/:userId", allergyController.createAllergy);
+allergyRouter.patch("/:allergyId", allergyController.updateAllergy );
+
+allergyRouter.delete("/:allergyId", allergyController.deleteAllergy);

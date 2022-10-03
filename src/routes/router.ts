@@ -8,13 +8,13 @@ import { authenticate } from "../middlware/authenticate";
 import tokenRouter from "./tokenRouter";
 import { allergyRouter } from "./allergyRouter";
 
+import { createUser } from "../controller/userController";
+
 export const router = Router();
 
-router.get("/", (req, res) => res.send("Please login"));
-
 router.use("/login", loginRouter);
-
-router.use("/token", tokenRouter);
+router.use("/refresh", tokenRouter);
+router.post("/register", createUser);
 
 router.use(authenticate);
 

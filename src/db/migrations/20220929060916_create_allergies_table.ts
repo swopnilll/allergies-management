@@ -7,6 +7,13 @@ export async function up(knex: Knex): Promise<void> {
     table.string("severity");
     table.boolean("is_deleted");
     table.boolean("is_high_risk");
+    table.text("symtoms");
+    table.integer("user_id");
+    table
+    .foreign("user_id")
+    .references("id")
+    .inTable("users")
+    .onDelete("SET NULL");
   });
 }
 

@@ -1,8 +1,16 @@
 export interface AllergyInterface {
-  id: number;
+  id?: number;
   name: string;
   severity: string;
   isHighRisk: boolean;
+  symtoms: string;
+  userId: number;
+  isDeleted?: boolean;
 }
 
-export type AllergyToInsert = Omit<AllergyInterface, "id">;
+export interface AllergyPatchRequestInterface {
+  name: string;
+  severity: string;
+  isHighRisk: boolean;
+  symtoms: string;
+}

@@ -5,17 +5,15 @@ import { errorHandler } from "../middlware/errorHandler";
 
 import * as allergyService from "../services/allergyService";
 
-export const getAllergy = (
+export const getAllergiesByUserId = (
   req: AuthorizedRequest,
   res: Response,
   nextFunction: NextFunction
 ) => {
-  const { id } = req.params;
-
-  console.log(id);
+  const { allergyId } = req.params;
 
   allergyService
-    .getAllergy(Number(id))
+    .getAllergiesByUserId(Number(allergyId))
     .then((data) => res.json(data))
     .catch((err) => errorHandler(err, req, res, nextFunction));
 };
@@ -25,12 +23,36 @@ export const createAllergy = (
   res: Response,
   nextFunction: NextFunction
 ) => {
-  const { userId } = req.params;
+  allergyService
+    .createAllergy(req.body)
+    .then((data) => res.json(data))
+    .catch((err) => errorHandler(err, req, res, nextFunction));
+};
 
-  console.log(userId);
+export const updateAllergy = (
+  req: AuthorizedRequest,
+  res: Response,
+  nextFunction: NextFunction
+) => {
+
+  const {allergyId} = req.params;
 
   allergyService
-    .createAllergy(Number(userId), req.body)
+    .updateAllergy(+allergyId, req.body)
+    .then((data) => res.json(data))
+    .catch((err) => errorHandler(err, req, res, nextFunction));
+};
+
+export const deleteAllergy = (
+  req: AuthorizedRequest,
+  res: Response,
+  nextFunction: NextFunction
+) => {
+
+  const {allergyId} = req.params;
+
+  allergyService
+    .deleteAllergy(+allergyId)
     .then((data) => res.json(data))
     .catch((err) => errorHandler(err, req, res, nextFunction));
 };

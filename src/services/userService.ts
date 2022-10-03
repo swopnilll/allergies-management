@@ -21,7 +21,6 @@ export const createUser = async (
   userPayload: UserToInsert
 ): Promise<Success<UserInterface>> => {
   const user = await User.createUser(userPayload);
-  console.log(user);
 
   return {
     data: user,
@@ -45,6 +44,8 @@ export const login = async (
 
   const isPasswordMatch = await bycrpt.compare(password, user.password);
 
+  console.log("isPasswordMatch", isPasswordMatch);
+
   if (!isPasswordMatch) {
     return {
       message: "Password does not match",
@@ -55,7 +56,7 @@ export const login = async (
     { userId: user.id },
     process.env.JWT_SECRET as string,
     {
-      expiresIn: "60s",
+      expiresIn: "600s",
     }
   );
 
@@ -69,7 +70,7 @@ export const login = async (
   await RefreshToken.createReferenceToken({
     token: refreshToken,
     user_id: user.id,
-    expires_at: new Date(Date.now() + 900000),
+    expires_at: new Date(Date.now() + 120),
   });
 
   return {

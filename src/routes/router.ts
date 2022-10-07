@@ -11,7 +11,6 @@ import { allergyRouter } from "./allergyRouter";
 import { createUser } from "../controller/userController";
 
 export const router = Router();
-
 router.use("/login", loginRouter);
 router.use("/refresh", tokenRouter);
 router.post("/register", createUser);

@@ -74,7 +74,13 @@ export const login = async (
   });
 
   return {
-    data: { accessToken, refreshToken },
+    data: {
+      accessToken,
+      refreshToken,
+      id: user.id,
+      name: user.name,
+      email: user.email,
+    },
     message: "User logged in successfully",
   };
 };

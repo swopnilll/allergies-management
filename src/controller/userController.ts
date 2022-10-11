@@ -12,8 +12,6 @@ export const getAllUsers = (
   res: Response,
   nextFunction: NextFunction
 ) => {
-  console.log("getting all the users");
-  console.log(req.authUser);
   userService
     .getAllUsers()
     .then((data) => res.json(data))

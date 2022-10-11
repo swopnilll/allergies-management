@@ -10,10 +10,10 @@ export const getAllergiesByUserId = (
   res: Response,
   nextFunction: NextFunction
 ) => {
-  const { allergyId } = req.params;
+  const { userId } = req.params;
 
   allergyService
-    .getAllergiesByUserId(Number(allergyId))
+    .getAllergiesByUserId(Number(userId))
     .then((data) => res.json(data))
     .catch((err) => errorHandler(err, req, res, nextFunction));
 };

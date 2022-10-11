@@ -24,10 +24,7 @@ export const getAccessToken = (
   res: Response,
   nextFunction: NextFunction
 ) => {
-  console.log("getAccessToken");
   const { refreshToken } = req.body;
-
-  console.log(refreshToken);
 
   tokenService
     .getAccessToken(refreshToken)

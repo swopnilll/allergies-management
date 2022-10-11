@@ -8,6 +8,8 @@ import { UserInterface, UserToInsert } from "../domain/UserInterface";
 import { Token } from "../domain/TokenInterface";
 import { RefreshToken } from "../models/RefreshToken";
 
+import CustomError from "../misc/CustomError";
+
 export const getAllUsers = async (): Promise<Success<UserInterface[]>> => {
   const users = await User.getAllUsers();
 
@@ -34,22 +36,17 @@ export const login = async (
 ): Promise<Success<Token>> => {
   const user = await User.getUserByEmail(email);
 
-  console.log("user", user);
-
   if (!user) {
-    return {
-      message: "Invalid email or password",
-    };
+    throw new CustomError("User not found", 404);
   }
 
   const isPasswordMatch = await bycrpt.compare(password, user.password);
 
-  console.log("isPasswordMatch", isPasswordMatch);
-
   if (!isPasswordMatch) {
-    return {
-      message: "Password does not match",
-    };
+    throw new CustomError(
+      "Password does not match for the email provided",
+      401
+    );
   }
 
   const accessToken = jwt.sign(
@@ -64,8 +61,6 @@ export const login = async (
     { userId: user.id },
     process.env.JWT_REFRESH_TOKEN_SECRET as string
   );
-
-  console.log(refreshToken);
 
   await RefreshToken.createReferenceToken({
     token: refreshToken,

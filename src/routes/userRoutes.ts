@@ -10,4 +10,4 @@ userRouter.get('/', getAllUsers);
 
 userRouter.post('/', createUser);
 
-userRouter.get("/:allergyId", allergyController.getAllergiesByUserId);
+userRouter.get("/:userId", allergyController.getAllergiesByUserId);

@@ -5,8 +5,6 @@ import { RefreshToken } from "../models/RefreshToken";
 export const getAccessToken = async (token: string) => {
   const existingToken = await RefreshToken.getRefreshToken(token);
 
-  console.log("existingToken", existingToken);
-
   if (!existingToken) {
     throw new Error("Invalid refresh token");
   }
@@ -14,8 +12,6 @@ export const getAccessToken = async (token: string) => {
   if (existingToken.expires_at < new Date()) {
     throw new Error("Refresh token expired");
   }
-
-  console.log(existingToken.expires_at)
 
   const { userId } = jwt.verify(
     existingToken.token,

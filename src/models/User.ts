@@ -24,6 +24,12 @@ class User {
 
     return user;
   }
+
+  public static async getUserById(id: number) {
+    const user = await db(User.table).where({ id }).first();
+
+    return user;
+  }
 }
 
 export default User;

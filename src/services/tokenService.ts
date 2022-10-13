@@ -26,3 +26,29 @@ export const getAccessToken = async (token: string) => {
     data: accessToken,
   };
 };
+
+export const generateAccessToken = (userId: number) => {
+  return jwt.sign(
+    { userId: userId },
+    process.env.JWT_SECRET as string,
+    {
+      expiresIn: "600s",
+    }
+  );
+}
+
+export const generateRefreshToken = (userId: number) => {
+  return jwt.sign(
+    { userId: userId },
+    process.env.JWT_REFRESH_TOKEN_SECRET as string
+  );
+}
+
+export const addRefreshToken = async (userId: number, refreshToken: string) => {
+  await RefreshToken.createReferenceToken({
+    token: refreshToken,
+    user_id: userId,
+    expires_at: new Date(Date.now() + 120),
+  });
+}
+

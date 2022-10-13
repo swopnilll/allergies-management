@@ -1,5 +1,6 @@
 import { Router } from "express";
-import {  createUser, getAllUsers } from "../controller/userController";
+
+import {  createUser, getAllUsers, getUserDetailsByUserId } from "../controller/userController";
 import * as allergyController from "../controller/allergyController";
 
 
@@ -10,4 +11,6 @@ userRouter.get('/', getAllUsers);
 
 userRouter.post('/', createUser);
 
-userRouter.get("/:userId", allergyController.getAllergiesByUserId);
+userRouter.get("/:userId", getUserDetailsByUserId);
+
+userRouter.get("/:userId/allergies", allergyController.getAllergiesByUserId);

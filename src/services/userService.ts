@@ -9,6 +9,11 @@ import { Token } from "../domain/TokenInterface";
 import { RefreshToken } from "../models/RefreshToken";
 
 import CustomError from "../misc/CustomError";
+import {
+  generateAccessToken,
+  generateRefreshToken,
+  addRefreshToken,
+} from "./tokenService";
 
 export const getAllUsers = async (): Promise<Success<UserInterface[]>> => {
   const users = await User.getAllUsers();
@@ -19,13 +24,36 @@ export const getAllUsers = async (): Promise<Success<UserInterface[]>> => {
   };
 };
 
-export const createUser = async (
-  userPayload: UserToInsert
+export const getUserDetails = async (
+  userId: number
 ): Promise<Success<UserInterface>> => {
-  const user = await User.createUser(userPayload);
+  const user = await User.getUserById(userId);
 
   return {
     data: user,
+    message: "User details fetched successfully",
+  };
+};
+
+export const createUser = async (
+  userPayload: UserToInsert
+): Promise<Success<Token>> => {
+  const user = await User.createUser(userPayload);
+
+  const accessToken = generateAccessToken(user[0].id);
+
+  const refreshToken = generateRefreshToken(user[0].id);
+
+  await addRefreshToken(user[0].id, refreshToken);
+
+  return {
+    data: {
+      accessToken,
+      refreshToken,
+      id: user[0].id,
+      name: user[0].name,
+      email: user[0].email,
+    },
     message: "Successfull signed new user",
   };
 };

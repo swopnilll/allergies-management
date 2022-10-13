@@ -33,3 +33,16 @@ export const createUser = (
     .then((data) => res.json(data))
     .catch((err) => errorHandler(err, req, res, nextFunction));
 };
+
+export const getUserDetailsByUserId = (
+  req: AuthorizedRequest,
+  res: Response,
+  nextFunction: NextFunction
+) => {
+  const { userId } = req.params;
+
+  userService
+    .getUserDetails(+userId)
+    .then((data) => res.json(data))
+    .catch((err) => errorHandler(err, req, res, nextFunction));
+};

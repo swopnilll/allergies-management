@@ -12,8 +12,10 @@ export const getAllergiesByUserId = (
 ) => {
   const { userId } = req.params;
 
+  console.log(req.query);
+
   allergyService
-    .getAllergiesByUserId(Number(userId))
+    .getAllergiesByUserId(Number(userId), req.query.name?.toString())
     .then((data) => res.json(data))
     .catch((err) => errorHandler(err, req, res, nextFunction));
 };

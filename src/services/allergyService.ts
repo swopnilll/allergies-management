@@ -7,9 +7,15 @@ import {
 import Allergy from "../models/Allergy";
 
 export const getAllergiesByUserId = async (
-  userId: number
+  userId: number,
+  query=""
 ): Promise<Success<AllergyInterface>> => {
-  const allergies = await Allergy.getAllergiesByUserId(userId);
+
+  const querParam = `%${query}%`
+
+  const allergies = await Allergy.getAllergiesByUserId(userId, querParam);
+
+  console.log(allergies);
 
   return {
     data: allergies,

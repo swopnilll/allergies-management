@@ -4,10 +4,13 @@ import { AllergyInterface,AllergyPatchRequestInterface } from "../domain/Allergy
 class Allergy {
   public static table = "allergies";
 
-  public static async getAllergiesByUserId(userId: number) {
+  public static allergyName = "allergies.name"
+
+  public static async getAllergiesByUserId(userId: number, queryParam="") {
     const allergies = await db(Allergy.table)
       .select(["*"])
-      .where({ user_id: userId });
+      .where({ user_id: userId })
+      .where(Allergy.allergyName, "like", queryParam)
 
     return allergies;
   }
